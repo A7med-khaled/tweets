@@ -1,3 +1,4 @@
+import { ReplyModule } from './reply/reply.module';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
@@ -10,6 +11,7 @@ import { join } from 'path';
 
 @Module({
   imports: [
+    ReplyModule,
     ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],

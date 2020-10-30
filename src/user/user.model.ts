@@ -1,8 +1,11 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate, HasMany } from 'sequelize-typescript';
 import { UserRO } from './user.dto';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import { Tweet } from '../tweet/tweet.model';
+import { Reply } from '../reply/reply.model';
 
+import { from } from 'rxjs';
 @Table
 export class User extends Model<User> {
 
@@ -17,6 +20,14 @@ export class User extends Model<User> {
 
     @UpdatedAt
     updated: Date;
+
+
+
+    @HasMany(() => Tweet)
+    tweets: Tweet[];
+
+    @HasMany(() => Reply)
+    replies: Reply[];
 
     @BeforeCreate
     @BeforeUpdate

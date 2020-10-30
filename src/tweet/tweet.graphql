@@ -1,0 +1,13 @@
+type Tweet {
+  id: ID!
+  body: String!
+  author: User
+}
+
+type Query {
+  tweets: [Tweet]
+}
+
+type Mutation {
+  tweet(body: String!): Tweet
+}

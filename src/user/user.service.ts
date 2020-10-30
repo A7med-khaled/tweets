@@ -20,6 +20,13 @@ export class UserService {
         return user
     }
 
+    async findById(id: any) {
+        const user = await this.userRepository.findOne({
+            where: { id },
+        });
+        return user
+    }
+
     async login(data: UserDto) {
         const { username, password } = data;
         const user = await this.userRepository.findOne({ where: { username } });

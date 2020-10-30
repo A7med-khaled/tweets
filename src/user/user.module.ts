@@ -5,8 +5,8 @@ import { UserResolver } from './user.resolver';
 
 @Module({
     providers: [
-        UserService,
         ...usersProviders,
+        UserService,
         UserResolver
     ]
 })

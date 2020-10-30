@@ -1,0 +1,16 @@
+type Reply {
+  id: ID
+  body: String!
+  created: String!
+  author: User
+  #tweet: Tweet!
+}
+
+type Query {
+  reply(id: ID!): Reply
+}
+
+type Mutation {
+  createReply(tweet: ID!, body: String!): Reply
+  deleteReply(id: ID!): Reply
+}
