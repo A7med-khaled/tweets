@@ -27,20 +27,29 @@ export interface IMutation {
     tweet(body: string): Tweet | Promise<Tweet>;
     login(username: string, password: string): Auth | Promise<Auth>;
     register(username: string, password: string): Auth | Promise<Auth>;
+    follow(followedId?: string): string | Promise<string>;
 }
 
 export interface Tweet {
     id: string;
     body: string;
-    author?: User;
+    author: User;
+    replies?: Reply[];
 }
 
 export interface User {
     id: string;
     username: string;
+    followers?: Follower[];
+    tweets?: Tweet[];
 }
 
 export interface Auth {
-    username: string;
-    token: string;
+    username?: string;
+    token?: string;
+}
+
+export interface Follower {
+    id?: string;
+    username?: string;
 }

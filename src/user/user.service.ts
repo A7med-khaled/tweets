@@ -1,11 +1,15 @@
 import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
 
-import { User } from './user.model';
+import { Follower, User } from './user.model';
 import { UserDto } from './user.dto';
+import { Tweet } from 'src/tweet/tweet.model';
 
 @Injectable()
 export class UserService {
-    constructor(@Inject("USER_REPOSITORY") private readonly userRepository: typeof User) { }
+    constructor(
+        @Inject("USER_REPOSITORY") private readonly userRepository: typeof User,
+        @Inject("FOLLOWER_REPOSITORY") private readonly followerRepository: typeof Follower
+    ) { }
 
 
     async showAll() {
@@ -16,6 +20,16 @@ export class UserService {
     async read(username: string) {
         const user = await this.userRepository.findOne({
             where: { username },
+            include: [
+                {
+                    model: User,
+                    as: 'followers',
+                },
+                {
+                    model: Tweet,
+                    as: 'tweets'
+                }
+            ]
         });
         return user
     }
@@ -23,6 +37,16 @@ export class UserService {
     async findById(id: any) {
         const user = await this.userRepository.findOne({
             where: { id },
+            include: [
+                {
+                    model: User,
+                    as: 'followers',
+                },
+                {
+                    model: Tweet,
+                    as: 'tweets'
+                }
+            ]
         });
         return user
     }
@@ -47,5 +71,17 @@ export class UserService {
         }
         user = await this.userRepository.create(data);
         return user.toResponseObject();
+    }
+
+    async followUser(userId, followedId) {
+        if (followedId == userId) {
+            throw new HttpException(
+                "you can't follow your self",
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        let following = await this.followerRepository.create({ userId, followedId });
+        console.log(following);
+        return JSON.stringify(following)
     }
 }

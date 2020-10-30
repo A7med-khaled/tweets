@@ -1,7 +1,8 @@
 type Tweet {
   id: ID!
   body: String!
-  author: User
+  author: User!
+  replies: [Reply!]
 }
 
 type Query {

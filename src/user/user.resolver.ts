@@ -2,8 +2,6 @@ import {
   Resolver,
   Query,
   Args,
-  ResolveProperty,
-  Parent,
   Mutation,
   Context,
 } from '@nestjs/graphql';
@@ -13,6 +11,7 @@ import { UserService } from './user.service';
 import { UserDto } from './user.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/core/auth.gaurd';
+import { User } from './user.model';
 
 @Resolver()
 export class UserResolver {
@@ -50,5 +49,16 @@ export class UserResolver {
     const user: UserDto = { username, password };
     return await this.userService.register(user);
   }
+
+  @Mutation()
+  @UseGuards(new AuthGuard())
+  async follow(
+    @Context('user') user,
+    @Args('followedId') followedId: string,
+  ) {
+    return await this.userService.followUser(user.id, followedId);
+  }
+
+
 
 }

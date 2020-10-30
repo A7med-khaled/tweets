@@ -1,11 +1,10 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate, HasMany } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate, HasMany, BelongsToMany, ForeignKey } from 'sequelize-typescript';
 import { UserRO } from './user.dto';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { Tweet } from '../tweet/tweet.model';
 import { Reply } from '../reply/reply.model';
 
-import { from } from 'rxjs';
 @Table
 export class User extends Model<User> {
 
@@ -28,6 +27,11 @@ export class User extends Model<User> {
 
     @HasMany(() => Reply)
     replies: Reply[];
+
+
+    @BelongsToMany(() => User, () => Follower, 'followedId')
+    followers: User[];
+
 
     @BeforeCreate
     @BeforeUpdate
@@ -70,4 +74,17 @@ export class User extends Model<User> {
             { expiresIn: '7d' },
         );
     }
+}
+
+
+@Table
+export class Follower extends Model<Follower> {
+
+    @ForeignKey(() => User)
+    @Column
+    userId: number;
+
+    @ForeignKey(() => User)
+    @Column
+    followedId: number;
 }

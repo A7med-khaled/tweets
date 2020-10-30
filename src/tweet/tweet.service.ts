@@ -1,5 +1,6 @@
 
 import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { Reply } from 'src/reply/reply.model';
 import { User } from 'src/user/user.model';
 import { Tweet } from './tweet.model';
 
@@ -10,7 +11,7 @@ export class TweetService {
 
 
     async showAll() {
-        const tweets = await this.tweetRepository.findAll({ include: [User] });
+        const tweets = await this.tweetRepository.findAll({ include: [User, Reply] });
         return tweets;
     }
 

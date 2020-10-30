@@ -1,11 +1,18 @@
 type User {
   id: ID!
   username: String!
+  followers: [Follower]
+  tweets: [Tweet]
 }
 
 type Auth {
-  username: String!
-  token: String!
+  username: String
+  token: String
+}
+
+type Follower {
+  id: ID
+  username: String
 }
 
 type Query {
@@ -17,4 +24,5 @@ type Query {
 type Mutation {
   login(username: String!, password: String!): Auth
   register(username: String!, password: String!): Auth
+  follow(followedId: ID): String
 }

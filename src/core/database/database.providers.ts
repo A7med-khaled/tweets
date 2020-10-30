@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { Reply } from 'src/reply/reply.model';
 import { Tweet } from 'src/tweet/tweet.model';
-import { User } from 'src/user/user.model';
+import { Follower, User } from 'src/user/user.model';
 
 export const databaseProvider = [
   {
@@ -15,7 +15,7 @@ export const databaseProvider = [
         password: '2829',
         database: 'tweets',
       });
-      sequelize.addModels([User, Tweet, Reply]);
+      sequelize.addModels([User, Tweet, Reply, Follower]);
       await sequelize.sync();
       return sequelize;
     }
