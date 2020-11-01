@@ -32,6 +32,7 @@ export class TweetService {
         return Follower.findAll({ where: { userId: user_id } })
             .then(records => records.map(record => record.followedId))
             .then((follower_ids: Number[]) => {
+                follower_ids.push(user_id);
                 return this.tweetRepository.findAll({
                     where: { authorId: { [Op.in]: follower_ids } },
                     include: [

@@ -7,14 +7,15 @@ export const databaseProvider = [
   {
     provide: 'SEQUELIZE',
     useFactory: async () => {
-      const sequelize = new Sequelize({
-        dialect: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: '2829',
-        database: 'tweets',
-      });
+      const config: any = {
+        dialect: process.env.DATABASE_DIALECT,
+        host: process.env.DATABASE_HOST,
+        port: process.env.DATABASE_PORT,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+      }
+      const sequelize = new Sequelize(config);
       sequelize.addModels([User, Tweet, Reply, Follower]);
       await sequelize.sync();
       return sequelize;
