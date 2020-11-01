@@ -20,6 +20,7 @@ type Query {
   user(username: String!): User
   whoami: User
   getNotFollowed: [User]
+  getFollowed: [User]
 }
 
 type Mutation {

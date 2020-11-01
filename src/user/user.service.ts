@@ -21,6 +21,16 @@ export class UserService {
             })
     }
 
+    async getFollowed(user_id) {
+        return Follower.findAll({ where: { userId: user_id } })
+            .then(records => records.map(record => record.followedId))
+            .then((follower_ids: Number[]) => {
+                return User.findAll({ where: { id: { [Op.in]: follower_ids } } });
+            })
+    }
+
+
+
     async showAll() {
         const users = await this.userRepository.findAll({});
         return users.map(user => user.toResponseObject(false));

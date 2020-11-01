@@ -35,7 +35,13 @@ export class UserResolver {
   async getNotFollowed(@Context('user') user) {
     const { id } = user;
     return await this.userService.getUnFollowed(id);
+  }
 
+  @Query()
+  @UseGuards(new AuthGuard())
+  async getFollowed(@Context('user') user) {
+    const { id } = user;
+    return await this.userService.getFollowed(id);
   }
 
 

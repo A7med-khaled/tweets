@@ -21,6 +21,7 @@ export interface IQuery {
     user(username: string): User | Promise<User>;
     whoami(): User | Promise<User>;
     getNotFollowed(): User[] | Promise<User[]>;
+    getFollowed(): User[] | Promise<User[]>;
 }
 
 export interface IMutation {
