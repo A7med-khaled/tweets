@@ -1,4 +1,5 @@
 import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
+const Op = require('sequelize').Op;
 
 import { Follower, User } from './user.model';
 import { UserDto } from './user.dto';
@@ -11,6 +12,14 @@ export class UserService {
         @Inject("FOLLOWER_REPOSITORY") private readonly followerRepository: typeof Follower
     ) { }
 
+    async getUnFollowed(user_id) {
+        return Follower.findAll({ where: { userId: user_id } })
+            .then(records => records.map(record => record.followedId))
+            .then((follower_ids: Number[]) => {
+                follower_ids.push(user_id);
+                return User.findAll({ where: { id: { [Op.notIn]: follower_ids } } });
+            })
+    }
 
     async showAll() {
         const users = await this.userRepository.findAll({});

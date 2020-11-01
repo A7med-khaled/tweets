@@ -15,9 +15,7 @@ import { User } from './user.model';
 
 @Resolver()
 export class UserResolver {
-  constructor(
-    private userService: UserService,
-  ) { }
+  constructor(private userService: UserService) { }
 
   @Query()
   @UseGuards(new AuthGuard())
@@ -31,6 +29,15 @@ export class UserResolver {
     const { username } = user;
     return await this.userService.read(username);
   }
+
+  @Query()
+  @UseGuards(new AuthGuard())
+  async getNotFollowed(@Context('user') user) {
+    const { id } = user;
+    return await this.userService.getUnFollowed(id);
+
+  }
+
 
   @Mutation()
   async login(
@@ -58,7 +65,5 @@ export class UserResolver {
   ) {
     return await this.userService.followUser(user.id, followedId);
   }
-
-
 
 }

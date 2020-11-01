@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate, HasMany, BelongsToMany, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate, HasMany, BelongsToMany, ForeignKey, Unique } from 'sequelize-typescript';
 import { UserRO } from './user.dto';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
@@ -81,10 +81,12 @@ export class User extends Model<User> {
 export class Follower extends Model<Follower> {
 
     @ForeignKey(() => User)
+    @Unique(false)
     @Column
     userId: number;
 
     @ForeignKey(() => User)
+    @Unique(false)
     @Column
     followedId: number;
 }

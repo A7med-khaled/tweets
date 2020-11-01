@@ -11,7 +11,12 @@ export class TweetService {
 
 
     async showAll() {
-        const tweets = await this.tweetRepository.findAll({ include: [User, Reply] });
+        const tweets = await this.tweetRepository.findAll({
+            include: [
+                { model: User },
+                { model: Reply, include: [User] }
+            ]
+        });
         return tweets;
     }
 
