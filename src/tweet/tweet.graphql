@@ -6,7 +6,8 @@ type Tweet {
 }
 
 type Query {
-  tweets: [Tweet]
+  tweets: [Tweet] , 
+  followingTweets:[Tweet]
 }
 
 type Mutation {

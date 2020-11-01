@@ -16,6 +16,7 @@ export interface Reply {
 export interface IQuery {
     reply(id: string): Reply | Promise<Reply>;
     tweets(): Tweet[] | Promise<Tweet[]>;
+    followingTweets(): Tweet[] | Promise<Tweet[]>;
     users(): User[] | Promise<User[]>;
     user(username: string): User | Promise<User>;
     whoami(): User | Promise<User>;

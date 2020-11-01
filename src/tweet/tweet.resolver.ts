@@ -25,6 +25,13 @@ export class TweetResolver {
         return await this.tweetService.showAll();
     }
 
+    @Query()
+    @UseGuards(new AuthGuard())
+    async followingTweets(@Context('user') user) {
+        const { id } = user;
+        return await this.tweetService.getFollowingTweets(id);
+    }
+
     @Mutation('tweet')
     @UseGuards(new AuthGuard())
     async createTweet(@Context('user') user, @Args('body') body: string) {
